@@ -1,5 +1,7 @@
 # UTV Hott News bilingual Canva carousel skill
 
+![UTV Hott News Canva carousel engine workflow](assets/workflow.png)
+
 Give a UTV Hott News article link to an agent with this skill installed. It reads the article, drafts Telugu and English copy, uses the article's lead image, builds matching three-page Canva imports, checks both designs, and returns two Canva edit links.
 
 See [SKILL.md](SKILL.md) for the workflow and [platform instructions](references/platforms.md) for ChatGPT, Claude, Codex, Google Antigravity, Windows, and Mac.
