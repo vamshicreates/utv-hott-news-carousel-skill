@@ -117,7 +117,8 @@ def render(lang: str, data: dict, image_name: str) -> str:
   <h2>{lines(copy["cta_headline_lines"])}</h2>
   <div class="red-rule"></div>
   <p class="cta-body">{e(copy["cta_body"])}</p>
-  <div class="download-box"><div class="download-shape" aria-hidden="true"></div><strong class="download-title">UTV Hott News App</strong><span class="download-action">{'ఇప్పుడే డౌన్‌లోడ్ చేసుకోండి' if lang == 'te' else 'Download now'}</span></div></div>
+  <div class="download-box"><div class="download-shape" aria-hidden="true"></div><strong class="download-title">UTV Hott News App</strong><span class="download-action">{'ఇప్పుడే డౌన్‌లోడ్ చేసుకోండి' if lang == 'te' else 'Download now'}</span></div>
+  <img class="store-badges" src="assets/store-badges.svg" alt="Download on the App Store and Get it on Google Play"></div>
   {page_footer()}
 </section>
 </body></html>
@@ -143,10 +144,11 @@ def main() -> None:
         shutil.copy2(args.image, assets / image_name)
         shutil.copy2(ROOT / "assets" / "logo.png", assets / "logo.png")
         shutil.copy2(ROOT / "assets" / "instagram-white.png", assets / "instagram-white.png")
+        shutil.copy2(ROOT / "assets" / "store-badges.svg", assets / "store-badges.svg")
         (folder / "index.html").write_text(render(lang, data, image_name), encoding="utf-8")
         zip_path = args.output / f"utv-hott-news-{lang}.zip"
         with ZipFile(zip_path, "w", ZIP_DEFLATED) as archive:
-            for relative in ("index.html", f"assets/{image_name}", "assets/logo.png", "assets/instagram-white.png"):
+            for relative in ("index.html", f"assets/{image_name}", "assets/logo.png", "assets/instagram-white.png", "assets/store-badges.svg"):
                 archive.write(folder / relative, relative)
         print(f"{LANGUAGES[lang]}: {zip_path}")
 

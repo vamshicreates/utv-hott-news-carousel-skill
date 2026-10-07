@@ -8,6 +8,8 @@ Each page uses the small UTV Hott News logo at top left and a white Instagram ic
 
 Shapes and their labels are separate editable layers. Text is centered above each shape, including fact cards, number circles, badges, the app download panel, and the footer.
 
+The last slide includes the supplied App Store and Google Play badges below the app download panel.
+
 See [SKILL.md](SKILL.md) for the workflow and [platform instructions](references/platforms.md) for ChatGPT, Claude, Codex, Google Antigravity, Windows, and Mac.
 
 The local generator needs Python 3.11+ and the article's downloaded lead photo. Example:
