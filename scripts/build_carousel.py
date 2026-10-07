@@ -63,16 +63,15 @@ def validate(data: dict, image: Path) -> None:
                 fail(f"copy.{lang}.{key} must be nonempty text")
 
 
-def page_footer(footer: str, number: int) -> str:
-    return (f'<div class="footer"><span>{e(footer)}</span>'
-            f'<span class="page-number">{number:02d} / 03</span></div>')
+def page_footer() -> str:
+    return ('<div class="footer"><img src="assets/instagram-white.png" '
+            'alt="Instagram"><span>@utvhottnewsapp</span></div>')
 
 
 def render(lang: str, data: dict, image_name: str) -> str:
     copy = data["copy"][lang]
     css_name = "styles-en.css" if lang == "en" else "styles.css"
     css = (ROOT / "assets" / css_name).read_text(encoding="utf-8")
-    footer = data.get("footer", "@itsutvmedia · itsutv.news")
     points = "\n".join(
         f'<div class="point"><span class="number">{n}</span><span>{e(point)}</span></div>'
         for n, point in enumerate(copy["detail_points"], 1)
@@ -90,15 +89,15 @@ def render(lang: str, data: dict, image_name: str) -> str:
   <div class="cover-copy"><span class="pill">{e(copy["category"])}</span>
   <h1>{lines(copy["cover_headline_lines"])}</h1>
   <p class="subhead">{e(copy["cover_subhead"])}</p></div>
-  {page_footer(footer, 1)}
+  {page_footer()}
 </section>
 <section class="page detail" data-document-role="page" data-label="Discussion points">
   <img class="logo" src="assets/logo.png" alt="UTV Hott News logo">
-  <div class="topline"></div><div class="section-tag">UTV HOTT NEWS · BREAKING</div>
+  <div class="topline"></div><div class="section-tag">BREAKING</div>
   <h2>{lines(copy["detail_headline_lines"])}</h2><div class="red-rule"></div>
   <div class="point-list">{points}</div>
   <p class="qualifier">{e(copy["detail_qualifier"])}</p>
-  {page_footer(footer, 2)}
+  {page_footer()}
 </section>
 <section class="page closing" data-document-role="page" data-label="Context">
   <div class="top-band"></div><img class="logo" src="assets/logo.png" alt="UTV Hott News logo">
@@ -106,7 +105,7 @@ def render(lang: str, data: dict, image_name: str) -> str:
   <h2>{lines(copy["closing_headline_lines"])}</h2><div class="divider"></div>
   <p class="body">{e(copy["closing_body"])}</p>
   <p class="source">{e(copy["source_label"])}</p>
-  {page_footer(footer, 3)}
+  {page_footer()}
 </section>
 </body></html>
 '''
@@ -130,10 +129,11 @@ def main() -> None:
         assets.mkdir(parents=True)
         shutil.copy2(args.image, assets / image_name)
         shutil.copy2(ROOT / "assets" / "logo.png", assets / "logo.png")
+        shutil.copy2(ROOT / "assets" / "instagram-white.png", assets / "instagram-white.png")
         (folder / "index.html").write_text(render(lang, data, image_name), encoding="utf-8")
         zip_path = args.output / f"utv-hott-news-{lang}.zip"
         with ZipFile(zip_path, "w", ZIP_DEFLATED) as archive:
-            for relative in ("index.html", f"assets/{image_name}", "assets/logo.png"):
+            for relative in ("index.html", f"assets/{image_name}", "assets/logo.png", "assets/instagram-white.png"):
                 archive.write(folder / relative, relative)
         print(f"{LANGUAGES[lang]}: {zip_path}")
 
