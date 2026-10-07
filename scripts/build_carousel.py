@@ -17,7 +17,7 @@ LANGUAGES = {"te": "Telugu", "en": "English"}
 REQUIRED_COPY = (
     "category", "cover_headline_lines", "cover_subhead", "detail_headline_lines",
     "detail_points", "detail_qualifier", "closing_tag", "closing_headline_lines",
-    "closing_body", "source_label",
+    "closing_body", "source_label", "cta_tag", "cta_headline_lines", "cta_body",
 )
 
 
@@ -50,7 +50,7 @@ def validate(data: dict, image: Path) -> None:
         for key in REQUIRED_COPY:
             if key not in copy:
                 fail(f"Missing copy.{lang}.{key}")
-        for key in ("cover_headline_lines", "detail_headline_lines", "closing_headline_lines"):
+        for key in ("cover_headline_lines", "detail_headline_lines", "closing_headline_lines", "cta_headline_lines"):
             lines(copy[key])
         if not isinstance(copy["detail_points"], list) or len(copy["detail_points"]) != 3:
             fail(f"copy.{lang}.detail_points must contain exactly three points")
@@ -70,8 +70,7 @@ def page_footer() -> str:
 
 def render(lang: str, data: dict, image_name: str) -> str:
     copy = data["copy"][lang]
-    css_name = "styles-en.css" if lang == "en" else "styles.css"
-    css = (ROOT / "assets" / css_name).read_text(encoding="utf-8")
+    css = (ROOT / "assets" / "styles.css").read_text(encoding="utf-8")
     points = "\n".join(
         f'<div class="point"><span class="number">{n}</span><span>{e(point)}</span></div>'
         for n, point in enumerate(copy["detail_points"], 1)
@@ -93,18 +92,29 @@ def render(lang: str, data: dict, image_name: str) -> str:
 </section>
 <section class="page detail" data-document-role="page" data-label="Discussion points">
   <img class="logo" src="assets/logo.png" alt="UTV Hott News logo">
-  <div class="topline"></div><div class="section-tag">BREAKING</div>
+  <div class="topline"></div>
+  <div class="detail-content"><div class="section-tag">{'ముఖ్యాంశాలు' if lang == 'te' else 'KEY POINTS'}</div>
   <h2>{lines(copy["detail_headline_lines"])}</h2><div class="red-rule"></div>
   <div class="point-list">{points}</div>
-  <p class="qualifier">{e(copy["detail_qualifier"])}</p>
+  <p class="qualifier">{e(copy["detail_qualifier"])}</p></div>
   {page_footer()}
 </section>
 <section class="page closing" data-document-role="page" data-label="Context">
   <div class="top-band"></div><img class="logo" src="assets/logo.png" alt="UTV Hott News logo">
-  <div class="section-tag">{e(copy["closing_tag"])}</div>
+  <div class="closing-content"><div class="section-tag">{e(copy["closing_tag"])}</div>
   <h2>{lines(copy["closing_headline_lines"])}</h2><div class="divider"></div>
-  <p class="body">{e(copy["closing_body"])}</p>
+  <p class="body">{e(copy["closing_body"])}</p></div>
   <p class="source">{e(copy["source_label"])}</p>
+  {page_footer()}
+</section>
+<section class="page cta" data-document-role="page" data-label="Download app">
+  <img class="logo" src="assets/logo.png" alt="UTV Hott News logo">
+  <div class="topline"></div>
+  <div class="cta-content"><div class="section-tag">{e(copy["cta_tag"])}</div>
+  <h2>{lines(copy["cta_headline_lines"])}</h2>
+  <div class="red-rule"></div>
+  <p class="cta-body">{e(copy["cta_body"])}</p>
+  <div class="download-box"><strong>UTV Hott News App</strong><span>{'ఇప్పుడే డౌన్‌లోడ్ చేసుకోండి' if lang == 'te' else 'Download now'}</span></div></div>
   {page_footer()}
 </section>
 </body></html>

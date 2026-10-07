@@ -2,7 +2,7 @@
 
 ![UTV Hott News Canva carousel engine workflow](assets/workflow.png)
 
-Give a UTV Hott News article link to an agent with this skill installed. It reads the article, drafts Telugu and English copy, uses the article's lead image, builds matching three-page Canva imports, checks both designs, and returns two Canva edit links.
+Give a UTV Hott News article link to an agent with this skill installed. It reads the article, drafts Telugu and English copy, uses the article's lead image, builds matching four-page Canva imports, checks the requested language designs, and returns Canva edit links. Page four invites readers to download UTV Hott News App for more news on the article's topic.
 
 Each page uses the small UTV Hott News logo at top left and a white Instagram icon with `@utvhottnewsapp` at bottom right. The original yellow, black, red, and white palette and fonts are preserved.
 
@@ -14,4 +14,4 @@ The local generator needs Python 3.11+ and the article's downloaded lead photo. 
 python3 scripts/build_carousel.py --story examples/story.example.json --image article.jpeg --output out-first-story
 ```
 
-On Windows, replace `python3` with `py -3`. The two ZIP outputs are imported into Canva as separate three-page designs. A Canva connection is required to return edit links automatically.
+On Windows, replace `python3` with `py -3`. The ZIP outputs are imported into Canva as separate four-page designs. A Canva connection is required to return edit links automatically.
