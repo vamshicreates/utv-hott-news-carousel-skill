@@ -9,6 +9,7 @@
 - Page 3: yellow logo band over black, one strong context question, a concise attributed answer, and source line.
 - Page 4: topic-specific question and a clear invitation to download UTV Hott News App. Keep the same logo and Instagram footer. Do not imply an app-store link unless one has been provided and checked.
 - Alignment: every heading, card, qualifier, source, and CTA content uses the same 54 px left and right inset. Keep all three point cards the same height; vertically center the number and text within each card. Keep the attribution close to the cards. Let variable text flow within a fixed content column instead of positioning each text block independently.
+- Shape layering: each colored shape is an empty background layer. Its label is a separate text layer above it, centered horizontally and vertically within the shape. Use this for category pills, fact cards, number circles, context tags, the download panel, and the footer. Verify independent selection in Canva after import.
 - Telugu text should be idiomatic and readable; English copy should be written for English readers, rather than rigidly translated.
 - For uncertain developments, use language such as “expected to discuss,” “reportedly considering,” or Telugu equivalents. Preserve any qualification in the source article.
 - Source reference designs from the first completed story: [Telugu](https://www.canva.com/design/DAHXNYyD-dM/C0_emFJeYdJntFnT2ruIUw/edit) and [English](https://www.canva.com/design/DAHXNXdF_MM/-nE4xGw18RnM260eBilmpw/edit).

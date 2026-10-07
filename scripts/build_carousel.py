@@ -64,15 +64,18 @@ def validate(data: dict, image: Path) -> None:
 
 
 def page_footer() -> str:
-    return ('<div class="footer"><img src="assets/instagram-white.png" '
-            'alt="Instagram"><span>@utvhottnewsapp</span></div>')
+    return ('<div class="footer"><div class="footer-shape" aria-hidden="true"></div>'
+            '<img src="assets/instagram-white.png" alt="Instagram">'
+            '<span class="footer-text">@utvhottnewsapp</span></div>')
 
 
 def render(lang: str, data: dict, image_name: str) -> str:
     copy = data["copy"][lang]
     css = (ROOT / "assets" / "styles.css").read_text(encoding="utf-8")
     points = "\n".join(
-        f'<div class="point"><span class="number">{n}</span><span>{e(point)}</span></div>'
+        f'<div class="point"><div class="point-shape" aria-hidden="true"></div>'
+        f'<div class="number-shape" aria-hidden="true"></div>'
+        f'<span class="number-text">{n}</span><span class="point-text">{e(point)}</span></div>'
         for n, point in enumerate(copy["detail_points"], 1)
     )
     return f'''<!doctype html>
@@ -85,7 +88,7 @@ def render(lang: str, data: dict, image_name: str) -> str:
   <img class="cover-photo" src="assets/{e(image_name)}" alt="Article lead image">
   <div class="cover-shade"></div>
   <img class="logo" src="assets/logo.png" alt="UTV Hott News logo">
-  <div class="cover-copy"><span class="pill">{e(copy["category"])}</span>
+  <div class="cover-copy"><div class="pill"><div class="pill-shape" aria-hidden="true"></div><span class="pill-text">{e(copy["category"])}</span></div>
   <h1>{lines(copy["cover_headline_lines"])}</h1>
   <p class="subhead">{e(copy["cover_subhead"])}</p></div>
   {page_footer()}
@@ -101,7 +104,7 @@ def render(lang: str, data: dict, image_name: str) -> str:
 </section>
 <section class="page closing" data-document-role="page" data-label="Context">
   <div class="top-band"></div><img class="logo" src="assets/logo.png" alt="UTV Hott News logo">
-  <div class="closing-content"><div class="section-tag">{e(copy["closing_tag"])}</div>
+  <div class="closing-content"><div class="section-tag"><div class="tag-shape" aria-hidden="true"></div><span class="tag-text">{e(copy["closing_tag"])}</span></div>
   <h2>{lines(copy["closing_headline_lines"])}</h2><div class="divider"></div>
   <p class="body">{e(copy["closing_body"])}</p></div>
   <p class="source">{e(copy["source_label"])}</p>
@@ -114,7 +117,7 @@ def render(lang: str, data: dict, image_name: str) -> str:
   <h2>{lines(copy["cta_headline_lines"])}</h2>
   <div class="red-rule"></div>
   <p class="cta-body">{e(copy["cta_body"])}</p>
-  <div class="download-box"><strong>UTV Hott News App</strong><span>{'ఇప్పుడే డౌన్‌లోడ్ చేసుకోండి' if lang == 'te' else 'Download now'}</span></div></div>
+  <div class="download-box"><div class="download-shape" aria-hidden="true"></div><strong class="download-title">UTV Hott News App</strong><span class="download-action">{'ఇప్పుడే డౌన్‌లోడ్ చేసుకోండి' if lang == 'te' else 'Download now'}</span></div></div>
   {page_footer()}
 </section>
 </body></html>

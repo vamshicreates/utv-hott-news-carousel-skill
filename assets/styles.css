@@ -4,8 +4,10 @@ body { margin:0; background:#ddd; font-family:'Baloo Tammudu 2','Noto Sans Telug
 html[lang="en"] body { font-family:Arial,Helvetica,sans-serif; }
 .page { width:1080px; height:1350px; position:relative; overflow:hidden; margin:0 0 20px; }
 .logo { position:absolute; z-index:5; left:54px; top:48px; width:96px; height:96px; object-fit:contain; }
-.footer { position:absolute; z-index:6; right:54px; bottom:30px; display:flex; align-items:center; gap:11px; padding:12px 16px; border-radius:12px; background:var(--black); color:var(--white); font-family:Arial,sans-serif; font-size:25px; font-weight:700; white-space:nowrap; }
-.footer img { width:30px; height:30px; object-fit:contain; }
+.footer { position:absolute; z-index:6; right:54px; bottom:30px; display:flex; align-items:center; gap:11px; padding:12px 16px; color:var(--white); font-family:Arial,sans-serif; font-size:25px; font-weight:700; white-space:nowrap; }
+.footer-shape { position:absolute; inset:0; z-index:0; border-radius:12px; background:var(--black); }
+.footer img { position:relative; z-index:1; width:30px; height:30px; object-fit:contain; }
+.footer-text { position:relative; z-index:1; }
 h1,h2,p { margin:0; }
 
 /* Every text block begins on the same 54 px left grid. Flow keeps spacing
@@ -15,7 +17,9 @@ h1,h2,p { margin:0; }
 .cover-shade { position:absolute; inset:450px 0 0; background:linear-gradient(transparent 0%, rgba(0,0,0,.45) 23%, #111 48%, #111 100%); }
 .cover .logo { background:#111; padding:7px; border-radius:17px; }
 .cover-copy { position:absolute; z-index:2; left:54px; right:54px; bottom:164px; }
-.pill { display:inline-block; border-radius:100px; padding:9px 23px 4px; background:var(--yellow); color:var(--black); font-size:28px; font-weight:800; line-height:1.55; }
+.pill { position:relative; display:block; width:max-content; padding:7px 23px; color:var(--black); font-size:28px; font-weight:800; line-height:1.55; white-space:nowrap; }
+.pill-shape { position:absolute; inset:0; z-index:0; border-radius:100px; background:var(--yellow); }
+.pill-text { position:relative; z-index:1; display:block; text-align:center; }
 .cover h1 { margin-top:23px; color:var(--yellow); font-size:72px; line-height:1.26; font-weight:800; letter-spacing:-1px; }
 .cover .subhead { margin-top:16px; font-size:37px; line-height:1.38; font-weight:700; }
 html[lang="en"] .cover h1 { line-height:1.15; }
@@ -29,16 +33,20 @@ html[lang="en"] .detail h2 { font-size:79px; line-height:1.12; }
 .red-rule { width:170px; height:10px; flex:none; background:var(--red); }
 .detail .red-rule { margin-top:9px; }
 .point-list { width:100%; margin-top:40px; display:flex; flex-direction:column; gap:20px; }
-.point { width:100%; height:160px; display:flex; align-items:center; gap:23px; padding:20px 28px; background:var(--black); color:var(--yellow); border-radius:20px; }
-.number { flex:0 0 51px; width:51px; height:51px; border-radius:50%; background:var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font:800 28px/1 Arial,sans-serif; }
-.point span:last-child { display:block; font-size:40px; font-weight:800; line-height:1.27; }
-html[lang="en"] .point span:last-child { font-size:42px; line-height:1.16; }
+.point { position:relative; width:100%; height:160px; color:var(--yellow); }
+.point-shape { position:absolute; inset:0; z-index:0; border-radius:20px; background:var(--black); }
+.number-shape { position:absolute; left:28px; top:50%; z-index:1; width:51px; height:51px; border-radius:50%; background:var(--red); transform:translateY(-50%); }
+.number-text { position:absolute; left:28px; top:50%; z-index:2; width:51px; color:#fff; font:800 28px/1 Arial,sans-serif; text-align:center; transform:translateY(-50%); }
+.point-text { position:absolute; left:105px; right:28px; top:50%; z-index:1; font-size:40px; font-weight:800; line-height:1.27; text-align:center; transform:translateY(-50%); }
+html[lang="en"] .point-text { font-size:42px; line-height:1.16; }
 .qualifier { width:100%; margin-top:31px; font-size:25px; font-weight:700; line-height:1.45; }
 
 .closing { background:var(--black); color:#fff; }
 .closing .top-band { position:absolute; left:0; top:0; width:100%; height:215px; background:var(--yellow); }
 .closing-content { position:absolute; left:54px; right:54px; top:285px; display:flex; flex-direction:column; align-items:flex-start; }
-.closing .section-tag { background:var(--red); color:#fff; border-radius:50px; padding:10px 25px 4px; font:800 25px/1.5 Arial,sans-serif; letter-spacing:1px; }
+.closing .section-tag { position:relative; padding:7px 25px; color:#fff; font:800 25px/1.5 Arial,sans-serif; letter-spacing:1px; }
+.tag-shape { position:absolute; inset:0; z-index:0; border-radius:50px; background:var(--red); }
+.tag-text { position:relative; z-index:1; display:block; text-align:center; }
 .closing h2 { width:100%; margin-top:45px; color:var(--yellow); font-size:76px; line-height:1.28; font-weight:800; }
 html[lang="en"] .closing h2 { font-size:78px; line-height:1.15; }
 .closing .divider { width:230px; height:9px; flex:none; margin-top:35px; background:var(--red); }
@@ -53,6 +61,7 @@ html[lang="en"] .cta h2 { font-size:78px; line-height:1.14; }
 .cta .red-rule { margin-top:42px; }
 .cta-body { width:100%; margin-top:56px; font-size:45px; line-height:1.4; font-weight:700; }
 html[lang="te"] .cta-body { width:850px; font-size:40px; }
-.download-box { width:100%; margin-top:70px; min-height:215px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:25px; border-radius:24px; background:var(--black); color:var(--white); text-align:center; }
-.download-box strong { color:var(--yellow); font:800 56px/1.13 Arial,sans-serif; }
-.download-box span { font-size:38px; font-weight:800; line-height:1.2; }
+.download-box { position:relative; width:100%; margin-top:70px; min-height:215px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:25px; color:var(--white); text-align:center; }
+.download-shape { position:absolute; inset:0; z-index:0; border-radius:24px; background:var(--black); }
+.download-title { position:relative; z-index:1; color:var(--yellow); font:800 56px/1.13 Arial,sans-serif; text-align:center; }
+.download-action { position:relative; z-index:1; font-size:38px; font-weight:800; line-height:1.2; text-align:center; }
