@@ -37,13 +37,20 @@ def lines(values: list[str]) -> str:
     return "<br>".join(e(v.strip()) for v in values)
 
 
-def validate(data: dict, image: Path) -> None:
-    if not image.is_file():
-        fail(f"Article image not found: {image}")
-    source = data.get("source_url", "")
-    parsed = urlparse(source)
-    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-        fail("source_url must be an HTTP(S) article URL")
+def validate(data: dict, image: Path | None, screenshot: Path | None) -> None:
+    if image is not None and not image.is_file():
+        fail(f"Cover image not found: {image}")
+    if screenshot is not None and not screenshot.is_file():
+        fail(f"Source screenshot not found: {screenshot}")
+    source = data.get("source_url")
+    if source:
+        if not isinstance(source, str):
+            fail("source_url must be an HTTP(S) URL")
+        parsed = urlparse(source)
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+            fail("source_url must be an HTTP(S) URL")
+    elif screenshot is None:
+        fail("Provide source_url in the story JSON or pass --screenshot")
     if not isinstance(data.get("copy"), dict) or set(data["copy"]) != set(LANGUAGES):
         fail("copy must contain exactly te and en")
     for lang, copy in data["copy"].items():
@@ -69,7 +76,7 @@ def page_footer() -> str:
             '<span class="footer-text">@utvhottnewsapp</span></div>')
 
 
-def render(lang: str, data: dict, image_name: str) -> str:
+def render(lang: str, data: dict, image_name: str | None) -> str:
     copy = data["copy"][lang]
     css = (ROOT / "assets" / "styles.css").read_text(encoding="utf-8")
     points = "\n".join(
@@ -78,15 +85,18 @@ def render(lang: str, data: dict, image_name: str) -> str:
         f'<span class="number-text">{n}</span><span class="point-text">{e(point)}</span></div>'
         for n, point in enumerate(copy["detail_points"], 1)
     )
+    cover_media = (f'<img class="cover-photo" src="assets/{e(image_name)}" alt="Article lead image">\n'
+                   '  <div class="cover-shade"></div>' if image_name else
+                   '<div class="cover-art" aria-hidden="true"></div>')
+    cover_class = "cover" if image_name else "cover cover-text-only"
     return f'''<!doctype html>
 <html lang="{lang}">
 <head><meta charset="utf-8"><meta name="viewport" content="width=1080, initial-scale=1">
 <title>UTV Hott News | {e(" ".join(copy["cover_headline_lines"]))}</title>
 <style>{css}</style></head>
 <body>
-<section class="page cover" data-document-role="page" data-label="Cover">
-  <img class="cover-photo" src="assets/{e(image_name)}" alt="Article lead image">
-  <div class="cover-shade"></div>
+<section class="page {cover_class}" data-document-role="page" data-label="Cover">
+  {cover_media}
   <img class="logo" src="assets/logo.png" alt="UTV Hott News logo">
   <div class="cover-copy"><div class="pill"><div class="pill-shape" aria-hidden="true"></div><span class="pill-text">{e(copy["category"])}</span></div>
   <h1>{lines(copy["cover_headline_lines"])}</h1>
@@ -128,27 +138,32 @@ def render(lang: str, data: dict, image_name: str) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--story", required=True, type=Path, help="Bilingual story JSON")
-    parser.add_argument("--image", required=True, type=Path, help="Lead photo downloaded from article")
+    parser.add_argument("--image", type=Path, help="Optional usable cover photo")
+    parser.add_argument("--screenshot", type=Path, help="Source screenshot; required if story has no source_url")
     parser.add_argument("--output", required=True, type=Path, help="New output directory")
     args = parser.parse_args()
     if args.output.exists():
         fail(f"Output directory already exists: {args.output}")
     data = json.loads(args.story.read_text(encoding="utf-8"))
-    validate(data, args.image)
+    validate(data, args.image, args.screenshot)
     args.output.mkdir(parents=True)
-    image_name = "article" + args.image.suffix.lower()
+    image_name = "article" + args.image.suffix.lower() if args.image else None
     for lang in LANGUAGES:
         folder = args.output / lang
         assets = folder / "assets"
         assets.mkdir(parents=True)
-        shutil.copy2(args.image, assets / image_name)
+        if args.image:
+            shutil.copy2(args.image, assets / image_name)
         shutil.copy2(ROOT / "assets" / "logo.png", assets / "logo.png")
         shutil.copy2(ROOT / "assets" / "instagram-white.png", assets / "instagram-white.png")
         shutil.copy2(ROOT / "assets" / "store-badges.svg", assets / "store-badges.svg")
         (folder / "index.html").write_text(render(lang, data, image_name), encoding="utf-8")
         zip_path = args.output / f"utv-hott-news-{lang}.zip"
         with ZipFile(zip_path, "w", ZIP_DEFLATED) as archive:
-            for relative in ("index.html", f"assets/{image_name}", "assets/logo.png", "assets/instagram-white.png", "assets/store-badges.svg"):
+            files = ["index.html", "assets/logo.png", "assets/instagram-white.png", "assets/store-badges.svg"]
+            if image_name:
+                files.append(f"assets/{image_name}")
+            for relative in files:
                 archive.write(folder / relative, relative)
         print(f"{LANGUAGES[lang]}: {zip_path}")
 

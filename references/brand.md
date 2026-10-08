@@ -4,7 +4,7 @@
 - Brand palette sampled from the user's reference: warm yellow `#EDB73F`, near-black `#111111`, red `#AD2B21`, white `#FFFFFF`.
 - Logo: the user's `utvnews.png`, bundled as `assets/logo.png`, shown as a small icon at the top left of every page.
 - Social mark: a white Instagram icon immediately beside `@utvhottnewsapp`, aligned at the bottom right of every page. Keep both legible against the existing palette. Do not add another logo, handle, or website in the branding area.
-- Cover: use the lead photo from the same article, dark gradient at the bottom, yellow headline and small category pill. The photo should show the subject without cropping faces.
+- Cover: when a suitable source photo is available, use it with a dark gradient at the bottom, yellow headline, and small category pill. The photo should show the subject without cropping faces. For a screenshot without a usable photo, use the text-led yellow and black cover with the same headline treatment; do not place unrelated imagery.
 - Page 2: yellow background, black rounded point cards, red number circles, brief attribution qualifier.
 - Page 3: yellow logo band over black, one strong context question, a concise attributed answer, and source line.
 - Page 4: topic-specific question and a clear invitation to download UTV Hott News App. Place the framed `assets/store-badges.svg` beneath the download panel, with both App Store and Google Play badges visible. It preserves the supplied badge image while removing its large white margins. Keep the same logo and Instagram footer. Do not imply a clickable store link unless one has been provided and checked.
