@@ -4,7 +4,7 @@
 
 Give an agent with this skill a UTV Hott News article link **or a news screenshot**. It reads the article or visible screenshot information, drafts Telugu and English copy, builds matching four-page Canva imports, checks the requested language designs, and returns Canva edit links. When a screenshot has no usable story photo, it makes a text-led cover. Page four invites readers to download UTV Hott News App for more news on the story's topic.
 
-Each page uses the small UTV Hott News logo at top left and a white Instagram icon with `@utvhottnewsapp` at bottom right. The original yellow, black, red, and white palette and fonts are preserved.
+Each page uses the small UTV Hott News logo at top left and a white Instagram icon with `@utvhottnewsapp` at bottom right. The yellow, black, red, and white palette is preserved. Editable English text uses Poppins throughout. Poppins has no Telugu glyphs, so strict Poppins-only output is English-only unless the user allows a Telugu-capable font for Telugu characters.
 
 Shapes and their labels are separate editable layers. Text is centered above each shape, including fact cards, number circles, badges, the app download panel, and the footer.
 

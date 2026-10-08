@@ -113,6 +113,7 @@ def render(lang: str, data: dict, image_name: str | None) -> str:
   {page_footer()}
 </section>
 <section class="page closing" data-document-role="page" data-label="Context">
+  <div class="closing-top-accent" aria-hidden="true"></div>
   <div class="closing-content"><div class="section-tag"><div class="tag-shape" aria-hidden="true"></div><span class="tag-text">{e(copy["closing_tag"])}</span></div>
   <h2>{lines(copy["closing_headline_lines"])}</h2><div class="divider"></div>
   <p class="body">{e(copy["closing_body"])}</p></div>
